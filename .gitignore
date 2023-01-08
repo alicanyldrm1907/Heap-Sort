@@ -1,52 +1,108 @@
-# Prerequisites
-*.d
+#include <stdio.h>
+#include <stdlib.h>
+#define SIZE 25
 
-# Object files
-*.o
-*.ko
-*.obj
-*.elf
+int heap[SIZE];
+int x=0;
 
-# Linker output
-*.ilk
-*.map
-*.exp
+void ekle (int data) {
+	if (x==SIZE-1) {
+		printf("Dolu\n");
+		return;
+	}
+	heap[x]=data;
+	x++;
+}
+int left (int i) {
+	return 2*i+1;
+}
+int right (int i) {
+	return 2*i+2;
+}
+int ebeveyn (int i) {
+	return i;
+}
+void heapify () {
+	int i,j,temp;
+	
+	for (i=1;i<x;i++) {
+		for (j=0;j<x;j++) {
+			int a=left(j);
+			int b=right(j);
+			int c=ebeveyn(j);
+			if (heap[a] < heap[c] && heap[a] < heap[b] && a<x) {
+				temp=heap[a];
+				heap[a]=heap[c];
+				heap[c]=temp;
+			}
+			else if (heap[b] < heap[c] && heap[b] < heap[a] && b<x) {
+				temp=heap[b];
+				heap[b]=heap[c];
+				heap[c]=temp;
+			}
+		}
+	}
+}
 
-# Precompiled Headers
-*.gch
-*.pch
+void sil (int data) {
+	int i,j=0,temp;
+	for (i=0;i<x;i++) {
+		temp=heap[i];
+	}
+	while (heap[j]!=data && j<x) {
+		if (j==x-1) {
+			printf("%d bulunamadi\n",data);
+			return;
+		}
+		j++;
+	}
+	heap[i]=heap[j];
+	heap[j]=temp;
+	heapify();
+	x--;
+}
 
-# Libraries
-*.lib
-*.a
-*.la
-*.lo
+void print () {
+	int i;
+	heapify();
+	for (i=0;i<x;i++) {
+		printf("%d ",heap[i]);
+	}
+}
 
-# Shared objects (inc. Windows DLLs)
-*.dll
-*.so
-*.so.*
-*.dylib
+int main () {
+	ekle(15);
+	ekle(20);
+	ekle(30);
+	ekle(40);
+	ekle(30);
+	ekle(40);
+	ekle(10);
+	ekle(50);
+	ekle(4);
+	ekle(96);
+	ekle(0);
+	ekle(12);
+	ekle(45);
+	ekle(5);
+	ekle(8);
+	ekle(11);
+	ekle(13);
+	ekle(9);
+	ekle(25);
+	ekle(35);
+	ekle(90);
+	ekle(50);
+	ekle(14);
+	print();
+	printf("\n");
+	sil(5);
+	print();
+	printf("\n");
+	sil(12);
+	print();
+	printf("\n");
+	sil(96);
+	print();
 
-# Executables
-*.exe
-*.out
-*.app
-*.i*86
-*.x86_64
-*.hex
-
-# Debug files
-*.dSYM/
-*.su
-*.idb
-*.pdb
-
-# Kernel Module Compile Results
-*.mod*
-*.cmd
-.tmp_versions/
-modules.order
-Module.symvers
-Mkfile.old
-dkms.conf
+}
